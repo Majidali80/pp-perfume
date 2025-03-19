@@ -24,7 +24,7 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 5000,
   pauseOnHover: true,
-  customPaging: (i: number) => (
+  customPaging: () => (
     <div className="w-3 h-3 bg-gold-500 rounded-full opacity-50 hover:opacity-100 transition-opacity"></div>
   ),
   dotsClass: "slick-dots custom-dots",
