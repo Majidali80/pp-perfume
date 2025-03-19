@@ -34,6 +34,7 @@ interface Product {
   materials?: string[];
   careInstructions?: string;
   shippingInformation?: string;
+  selectedSize?: string;
 }
 
 interface Review {
