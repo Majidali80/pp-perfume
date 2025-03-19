@@ -35,7 +35,7 @@ export interface Product {
 
   productImage?: string;
   // Adding optional fields for the cart context
-  selectedSize: string;
+  selectedSize: string | undefined
   quantity: number;
 }
 
