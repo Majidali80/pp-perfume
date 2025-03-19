@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 
+
 // Dynamically import react-slick with SSR disabled
-const Slider = dynamic(() => import("react-slick"), {
+const SliderComponent = dynamic(() => import("react-slick"), {
   ssr: false, // Disable server-side rendering for react-slick
 });
 
@@ -68,7 +69,7 @@ const Carousel = () => {
   return (
     <section className="relative bg-gradient-to-br from-gray-900 to-purple-800 text-white overflow-hidden py-12 md:py-20">
       <div className="container mx-auto px-4">
-        <Slider {...settings}>
+        <SliderComponent {...settings}>
           {slides.map((slide, index) => (
             <div key={index} className="relative h-96 md:h-[500px] overflow-hidden rounded-lg shadow-2xl">
               <Image
@@ -92,7 +93,7 @@ const Carousel = () => {
               </div>
             </div>
           ))}
-        </Slider>
+        </SliderComponent>
       </div>
     </section>
   );
