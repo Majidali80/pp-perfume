@@ -10,6 +10,14 @@ import { FaTruck, FaCreditCard, FaMoneyBillWave, FaWallet, FaHeart } from "react
 import OrderConfirmation from "@/components/orderconfirmation";
 import { client } from "../../sanity/lib/client"; // Updated client import
 
+interface CartItem {
+  _id: string; // Product ID
+  title: string; // Add title property
+  quantity: number; // Quantity of the product
+  price: number; // Price of the product
+  discountPercentage?: number; // Optional discount percentage
+}
+
 interface OrderData {
   orderNumber: string;
   customer: {
@@ -21,17 +29,28 @@ interface OrderData {
     city: string;
     country: string;
     phone: string;
-    notes?: string;
+    notes: string;
     subscribe: boolean;
   };
   paymentMethod: string;
-  cartItems: any[];
+  cartItems: CartItem[];
   subtotal: number;
   shipping: number;
   couponDiscount: number;
   donation: number;
   total: number;
   orderDate: string;
+}
+
+interface ErrorResponse {
+  message: string;
+  // Add any other properties that you expect in the error response
+}
+
+interface CustomError {
+  message: string;
+  status?: number; // Optional, if applicable
+  response?: ErrorResponse; // Use the specific type here
 }
 
 export default function CheckoutPage() {
@@ -233,16 +252,17 @@ export default function CheckoutPage() {
         notes: "",
         subscribe: false,
       });
-    } catch (error: any) {
-      console.error("Error placing order:", error);
-      console.error("Error details:", error.message, error.status, error.response);
+    } catch (error) {
+      const customError = error as CustomError; // Cast the error to CustomError
+      console.error("Error placing order:", customError);
+      console.error("Error details:", customError.message, customError.status, customError.response);
 
       let errorMessage = "Failed to place order. Please try again.";
-      if (error.message.includes("Invalid reference") || error.message.includes("Invalid product ID")) {
+      if (customError.message.includes("Invalid reference") || customError.message.includes("Invalid product ID")) {
         errorMessage = "Invalid product in cart. Please remove invalid items and try again.";
-      } else if (error.message.includes("Cart is empty")) {
+      } else if (customError.message.includes("Cart is empty")) {
         errorMessage = "Your cart is empty. Please add items to proceed.";
-      } else if (error.message.includes("network")) {
+      } else if (customError.message.includes("network")) {
         errorMessage = "Network error. Please check your internet connection.";
       }
 
