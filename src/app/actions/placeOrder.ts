@@ -60,8 +60,13 @@ export async function placeOrder(orderData: OrderData) {
   try {
     const result = await client.create(sanityOrder);
     return { success: true, order: result };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error placing order in server action:", error);
-    throw new Error(error.message || "Failed to place order");
+    
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to place order");
+    }
   }
 }
