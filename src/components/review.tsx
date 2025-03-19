@@ -123,7 +123,7 @@ const ReviewComponent = ({ productId }: { productId: string }) => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-200 mb-6">No reviews yet. Be the first to review "{productId}"!</p>
+          <p className="text-gray-200 mb-6">No reviews yet. Be the first to review {productId}!</p>
         )}
 
         {/* Review Form */}
