@@ -76,11 +76,16 @@ const ReviewComponent = ({ productId }: { productId: string }) => {
         confirmButtonColor: "#C084FC",
         timer: 2000,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error submitting review:", err);
-      setError(
-        err.message.includes("permission") ? "Insufficient permissions to submit review. Contact admin." : "Failed to submit review. Please try again."
-      );
+      
+      if (err instanceof Error) {
+        setError(
+          err.message.includes("permission") ? "Insufficient permissions to submit review. Contact admin." : "Failed to submit review. Please try again."
+        );
+      } else {
+        setError("Failed to submit review. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
